@@ -1,0 +1,6 @@
+sudo apt-get update
+sudo apt-get install nginx certbot
+sudo unlink /etc/nginx/site-enabled/default
+cp ~/bash/reverse-proxy.conf /etc/nginx/sites-available/reverse-proxy.conf
+cp ~/bash/send.bulksmsbd.online.conf /etc/nginx/conf.d/
+#certbot certonly --standalone -d send.bulksmsbd.online
