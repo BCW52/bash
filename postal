@@ -63,7 +63,7 @@ sudo cp signing.key/opt/postal/config
 postal initialize
 postal make-user
 
-sudo docker run -d \
+# sudo docker run -d \
    --name postal-caddy \
    --restart always \
    --network host \
