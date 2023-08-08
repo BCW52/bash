@@ -37,8 +37,10 @@ docker run -d \
    
 
 #getting my configuration
-git clone https://github.com/postalconf.git /opt/postal/config
-
+#git clone https://github.com/postalconf.git /opt/postal/config
+cp Caddyfile /opt/postal/config
+cp postal.yml /opt/postal/config
+cp signing.key/opt/postal/config
 
 #staring postal for production 
 postal initialize
