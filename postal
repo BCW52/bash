@@ -7,18 +7,18 @@ echo "#############################################"
 sudo apt install apt-transport-https ca-certificates curl software-properties-common git jq
 
 #installing docker
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add –
-sudo add-apt-repository “deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable”
-sudo apt update
-sudo apt install docker.io 
+#curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add –
+#sudo add-apt-repository “deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable”
+#sudo apt update
+#sudo apt install docker.io 
 
 #script
-git clone https://postalserver.io/start/install /opt/postal/install
+sudo git clone https://postalserver.io/start/install /opt/postal/install
 
 sudo ln -s /opt/postal/install/bin/postal /usr/bin/postalserver
 
 #docker engine for DB
-docker run -d \
+sudo docker run -d \
    --name postal-mariadb \
    -p 127.0.0.1:3306:3306 \
    --restart always \
@@ -26,7 +26,7 @@ docker run -d \
    -e MARIADB_ROOT_PASSWORD=postal \
    MARIADB_ROOT_PASSWORD
    
-docker run -d \
+sudo docker run -d \
    --name postal-rabbitmq \
    -p 127.0.0.1:5672:5672 \
    --restart always \
@@ -38,10 +38,18 @@ docker run -d \
 
 #getting my configuration
 #git clone https://github.com/postalconf.git /opt/postal/config
-cp Caddyfile /opt/postal/config
-cp postal.yml /opt/postal/config
-cp signing.key/opt/postal/config
+sudo cp Caddyfile /opt/postal/config
+sudo cp postal.yml /opt/postal/config
+sudo cp signing.key/opt/postal/config
 
 #staring postal for production 
 postal initialize
 postal make-user
+
+sudo docker run -d \
+   --name postal-caddy \
+   --restart always \
+   --network host \
+   -v /opt/postal/config/Caddyfile:/etc/caddy/Caddyfile \
+   -v /opt/postal/caddy-data:/data \
+   caddy-data
